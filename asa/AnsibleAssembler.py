@@ -8,7 +8,7 @@ class AnsibleAssembler(Manager, YAML):
         super().__init__(path)
         self.config = config
 
-    def createAnsibleRepo(self):
+    def createRepo(self, name=None):
         self._createHook()
 
     def createInventory(self, name):
@@ -20,7 +20,6 @@ class AnsibleAssembler(Manager, YAML):
         self._createHook(key, name)
 
     def _createHook(self, key=None, name=None):
-        print(self.path)
         content = self._getConfigContent(key)
         [directories, files] = self._detectContentNature(content)
 
@@ -40,7 +39,6 @@ class AnsibleAssembler(Manager, YAML):
             return keys
 
         return tContent
-
 
     def _detectContentNature(self, content):
         directories = list()

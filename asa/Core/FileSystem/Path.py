@@ -2,7 +2,6 @@ import os
 
 class Path(object):
     def __init__(self, path=None):
-        print(path)
         if path is None:
             self._path = os.getcwd()
         else:
