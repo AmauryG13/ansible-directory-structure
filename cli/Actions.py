@@ -4,7 +4,7 @@ errorString = "argument {} : invalid choice '{}' (choose from '{}')"
 
 class BootCommand(argparse.Action):
     validAction = ['create', 'delete']
-    validResource = ['repo', 'inventory', 'roles']
+    validResource = ['repo', 'inventory', 'role']
 
     def __init__(self, option_strings, dest, nargs=1, **kwargs):
         super().__init__(option_strings, dest, nargs, **kwargs)
@@ -17,6 +17,9 @@ class BootCommand(argparse.Action):
 
         if action not in self.validAction:
             parser.error(errorString.format('action', action, "', '".join(self.validAction)))
+
+        if resource not in self.validResource:
+            parser.error(errorString.format('resource', resource, "', '".join(self.validResource)))
 
         setattr(namespace, "{}_action".format(self.dest), action)
         setattr(namespace, "{}_resource".format(self.dest), resource)

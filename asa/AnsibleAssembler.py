@@ -22,12 +22,23 @@ class AnsibleAssembler(Manager, YAML):
     def _createHook(self, key=None, name=None):
         content = self._getConfigContent(key)
         [directories, files] = self._detectContentNature(content)
+        print(directories)
+        print(files)
 
         if name is not None:
             self.createDirectory(name, key)
 
-        idir = self.path if name is None else os.path.join(self.path, key, name)
+        idir = (key, "")[key is None] if name is None else os.path.join(key, name)
         self.createDirectory(directories, idir)
+
+        if key is not None:
+            for directory in directories:
+                ifile = os.path.join(idir, directory)
+                self.createFile("main.yaml", ifile)
+
+            for f in files:
+                ifile = key if name is None else os.path.join(key, name)
+                self.createFile(f, ifile)
 
     def _getConfigContent(self, key):
         [config, file] = self.parseYAMLFile(self.config)
@@ -35,8 +46,12 @@ class AnsibleAssembler(Manager, YAML):
 
         if key is not None:
             content = tContent[key]
-            keys = content.keys()
-            return keys
+
+            if isinstance(content, dict):
+                keys = content.keys()
+                return keys
+
+            return content
 
         return tContent
 
