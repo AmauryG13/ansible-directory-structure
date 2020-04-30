@@ -1,5 +1,5 @@
-from ads.core.filesystem import Manager
-from asa.core.parser import YAML
+from ads.core.filesystem.Manager import Manager
+from ads.core.parser.YAML import YAML
 
 import os
 

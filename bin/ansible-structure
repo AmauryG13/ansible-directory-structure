@@ -1,1 +1,1 @@
-../src/ads/cli/main
+../src/ads/cli/__main__.py

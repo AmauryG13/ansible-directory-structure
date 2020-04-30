@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from ads.cli import CliParser
+from ads.cli.CliParser import CliParser
 from ads.cli.Actions import BootCommand
 
 import os,argparse
