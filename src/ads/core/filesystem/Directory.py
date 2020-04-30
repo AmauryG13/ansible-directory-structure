@@ -1,4 +1,4 @@
-from asa.Core.FileSystem.Path import Path
+from ads.core.filesystem import Path
 import os
 
 class Directory(Path):
