@@ -1,4 +1,4 @@
-from asa.AnsibleAssembler import AnsibleAssembler
+from ads import AnsibleAssembler
 
 class CliParser(AnsibleAssembler):
     def __init__(self, path, config, action, resource, **args):
