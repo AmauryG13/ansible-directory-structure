@@ -1,4 +1,4 @@
-from ads.utils.filewrapper import file2stream
+from ads.utils.files import file2stream
 
 import yaml, os
 

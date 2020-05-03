@@ -17,12 +17,3 @@ def file2stream(func):
         file.close()
         return [content, filename]
     return convertFilename2Stream
-
-
-def isReadableFile(filepath):
-    exists = os.path.exists(filepath)
-    isFile = os.path.isfile(filepath)
-    return (exists and isFile)
-
-def hasYAMLextension(filename):
-    ext = ['yaml', 'yml', 'YAML', 'YML']
