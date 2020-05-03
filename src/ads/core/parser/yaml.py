@@ -2,17 +2,17 @@ from ads.utils.filewrapper import file2stream
 
 import yaml, os
 
-class YAML(object):
-    def __init__(self, path):
+class Yaml(object):
+    def __init__(self):
         pass
 
-    @file2stream('path')
-    def parseYAMLFile(self, file, path=None):
+    @file2stream
+    def parseYamlFile(self, file, path=None):
         content = yaml.load(file, Loader=yaml.SafeLoader)
         return [content, file]
 
 if __name__ == "__main__":
-    parser = YAMLParser('.');
+    parser = Yaml();
 
-    [content, file] = parser.readFile('test.yaml')
+    [content, file] = parser.parseYamlFile('test.yaml')
     print(content)
