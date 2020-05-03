@@ -1,4 +1,4 @@
-from ads.core.filesystem.Path import Path
+from ads.core.filesystem.path import Path
 import os
 
 class Directory(Path):

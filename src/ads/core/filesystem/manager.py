@@ -1,5 +1,5 @@
-from ads.core.filesystem.Directory import Directory
-from ads.core.filesystem.File import File
+from ads.core.filesystem.directory import Directory
+from ads.core.filesystem.file import File
 
 class Manager(File, Directory):
     def __init__(self, path=None):
