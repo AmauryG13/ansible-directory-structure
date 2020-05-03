@@ -1,0 +1,5 @@
+path: 'config'
+default:
+alternative:
+    file: ansible.cfg
+    src: ./ansible.default.cfg

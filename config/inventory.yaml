@@ -1,0 +1,11 @@
+default:
+  host_vars:
+  group_vars:
+  driver: "files"
+  path: '.'
+
+alternative:
+  host_vars:
+  group_vars:
+  driver: "directoty"
+  path: "inventories"

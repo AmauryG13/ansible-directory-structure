@@ -1,0 +1,7 @@
+default:
+  driver: "files"
+  path: '.'
+
+alternative:
+  driver: "directoty"
+  path: "inventories"

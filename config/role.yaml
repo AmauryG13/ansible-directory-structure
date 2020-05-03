@@ -1,0 +1,22 @@
+path: 'roles'
+default:
+  tasks:
+    - main.yaml
+  handlers:
+    - main.yaml
+  defaults:
+    - main.yaml
+
+options:
+  files:
+    files:
+    templates:
+  variables:
+    vars:
+      - main.yaml
+    meta:
+      - main.yaml
+  extra:
+    library:
+    module_utils:
+    lookup_plugins:
