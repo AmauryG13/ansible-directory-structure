@@ -8,8 +8,12 @@ class File(Path):
     def createFile(self, filename, path=None):
         cPath = self.getEntirePath(path)
         filepath = os.path.join(cPath, filename)
-        file = open(filepath, 'x')
-        return file
+
+        if not os.path.exists(filepath):
+            file = open(filepath, 'x')
+            return file
+
+        return
 
     def deleteFile(self, filename, path=None):
         cPath = self.getEntirePath(path)
