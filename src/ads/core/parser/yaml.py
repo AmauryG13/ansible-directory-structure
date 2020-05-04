@@ -3,8 +3,6 @@ from ads.utils.files import file2stream
 import yaml, os
 
 class Yaml(object):
-    def __init__(self):
-        pass
 
     @file2stream
     def parseYamlFile(self, file, path=None):

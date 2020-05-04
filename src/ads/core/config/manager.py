@@ -1,13 +1,13 @@
 import os
 from ads.core.parser.yaml import Yaml
 
-class Manager(Yaml):
+class Config(Yaml):
     _defaultPath = os.path.join(os.path.dirname(__file__), '../../../../config')
     _configKeys = ['layout', 'inventory', 'playbook', 'role', 'config'];
 
-    def __init__(self, configPath=None):
-        super().__init__()
-        self.configPath = configPath
+    def __init__(self, config, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.configPath = config
 
     def readDefaultConfig(self):
         content = self._readConfigFiles(self._configKeys, self._defaultPath)
@@ -31,7 +31,7 @@ class Manager(Yaml):
         self.readDefaultConfig()
 
         if self.configPath is not None:
-            userConfig = self.readUsertConfig(self.configPath)
+            userConfig = self.readUsertConfig()
             self.mergeConfigContent(userConfig)
 
     def _readConfigFiles(self, keys, path):

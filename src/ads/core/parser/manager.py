@@ -1,5 +1,5 @@
 from ads.core.parser.yaml import Yaml
 
-class Manager(Yaml):
-    def __init__(self):
-        super().__init__()
+class Parser(Yaml):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
