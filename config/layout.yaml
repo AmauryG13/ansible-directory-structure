@@ -6,6 +6,7 @@ default:
 
 options:
   extra:
-    - library
-    - module_utils
-    - filter_plugins
+    content:
+      - library
+      - module_utils
+      - filter_plugins

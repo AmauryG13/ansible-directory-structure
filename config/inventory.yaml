@@ -1,11 +1,14 @@
 default:
-  host_vars:
-  group_vars:
-  driver: "files"
-  path: '.'
+  driver: "file"
+  path: 'hosts.ini'
+  content:
+    - host_vars
+    - group_vars
 
 alternative:
-  host_vars:
-  group_vars:
-  driver: "directoty"
+  driver: "directory"
   path: "inventories"
+  content:
+    - hosts.ini
+    - host_vars
+    - group_vars

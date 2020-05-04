@@ -1,5 +1,7 @@
-path: 'config'
 default:
 alternative:
-    file: ansible.cfg
-    src: ./ansible.default.cfg
+    path: 'config'
+    driver: 'directory'
+    content:
+      ansible.cfg:
+        src: ./ansible.default.cfg

@@ -1,7 +1,9 @@
 default:
-  driver: "files"
-  path: '.'
+  driver: "file"
+  path: 'playbook.yaml'
 
 alternative:
-  driver: "directoty"
-  path: "inventories"
+  driver: "directory"
+  path: "playbooks"
+  content:
+    - main.yaml
