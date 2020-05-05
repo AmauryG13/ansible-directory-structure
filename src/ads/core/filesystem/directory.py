@@ -1,5 +1,6 @@
-from asa.Core.FileSystem.Path import Path
+from ads.core.filesystem.path import Path
 import os
+
 
 class Directory(Path):
     def __init__(self, path=None):
@@ -9,7 +10,7 @@ class Directory(Path):
         cPath = self.getEntirePath(path)
         if isinstance(dir, list):
             for el in dir:
-                dirpath = os.path.join(cPath,el)
+                dirpath = os.path.join(cPath, el)
 
                 status = self._mkdir(dirpath)
         else:
@@ -49,6 +50,3 @@ class Directory(Path):
             return True
 
         return False
-
-if __name__ == '__main__':
-    dir = Directory()

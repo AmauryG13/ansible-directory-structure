@@ -1,0 +1,27 @@
+default:
+  path: 'roles'
+  driver: 'directory'
+  content:
+    tasks:
+      - main.yaml
+    handlers:
+      - main.yaml
+    defaults:
+      - main.yaml
+
+options:
+  files:
+    content:
+      - files
+      - templates
+  variables:
+    content:
+      vars:
+        - main.yaml
+      meta:
+        - main.yaml
+  extra:
+    content:
+      - library
+      - module_utils
+      - lookup_plugins

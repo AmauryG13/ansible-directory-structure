@@ -1,0 +1,9 @@
+default:
+  driver: "file"
+  path: 'playbook.yaml'
+
+alternative:
+  driver: "directory"
+  path: "playbooks"
+  content:
+    - main.yaml

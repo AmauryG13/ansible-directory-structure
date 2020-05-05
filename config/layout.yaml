@@ -1,0 +1,12 @@
+default:
+  config:
+  inventory:
+  playbook:
+  role:
+
+options:
+  extra:
+    content:
+      - library
+      - module_utils
+      - filter_plugins
