@@ -15,6 +15,7 @@ class Builder(Config, Filesystem, Parser):
         content = self._getConfigContent(None)
 
         self._addNewAction('directory', 'roles')
+        self._executeActions()
 
         for key in content[:-1]:
             getattr(self, 'create' + key.capitalize())()
@@ -32,11 +33,24 @@ class Builder(Config, Filesystem, Parser):
                 name = None
             elif self.mode == 'alternative':
                 name = name[0:name.find('.')]
+        else:
+            if self.mode == 'alternative':
+                self._addNewAction('directory', 'inventories')
+                self._executeActions()
+                return
 
         self._createHook(key, name)
 
     def createPlaybook(self, name=None):
         key = 'playbook'
+
+        if name is not None and self.isFile(name):
+            if self.mode == "default":
+                self.config[key][self.mode]['path'] = './' + name
+                name = None
+            elif self.mode == "alternative":
+                name = self.config[key][self.mode]['content'] = [name]
+                name = None
 
         self._createHook(key, name)
 
@@ -66,6 +80,7 @@ class Builder(Config, Filesystem, Parser):
         actionPath = entry['path']
 
         if path is not None:
+            self._addNewAction('directory', actionPath)
             actionPath = self.__pathJoint(actionPath, path)
 
         self._addNewAction(actionDriver, actionPath)
@@ -75,11 +90,13 @@ class Builder(Config, Filesystem, Parser):
             self._handleContent(actionPath, content)
 
     def _executeActions(self,):
+        print(self.actions)
         for action in self.actions:
             func = 'create' + action['driver'].capitalize()
             getattr(self, func)(action['path'])
 
         self.actions = []
+        print(self.actions)
 
     def _addNewAction(self, driver, path):
         self.actions.append(
@@ -109,12 +126,3 @@ class Builder(Config, Filesystem, Parser):
             return p2
 
         return os.path.join(p1, p2)
-
-
-if __name__ == '__main__':
-    ads = Builder('alternative', 'tests/', None)
-    ads.createRepo()
-#    ads.createConfig()
-#    ads.createInventory('cluster.ini')
-#    ads.createPlaybook('test.yaml')
-#    ads.createRole('test')
