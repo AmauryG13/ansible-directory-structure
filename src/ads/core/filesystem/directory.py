@@ -50,3 +50,9 @@ class Directory(Path):
             return True
 
         return False
+
+    def isExistingDir(self, dir, path=None):
+        cPath = self.getEntirePath(path)
+        dirpath = os.path.join(cPath, dir)
+
+        return os.path.exists(dirpath)

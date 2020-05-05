@@ -27,6 +27,8 @@ class Builder(Config, Filesystem, Parser):
     def createInventory(self, name=None):
         key = 'inventory'
 
+        self._detectPreviousConfig(key)
+
         if name is not None and self.isFile(name):
             if self.mode == "default":
                 self.config[key][self.mode]['path'] = './' + name
@@ -43,6 +45,8 @@ class Builder(Config, Filesystem, Parser):
 
     def createPlaybook(self, name=None):
         key = 'playbook'
+
+        self._detectPreviousConfig(key)
 
         if name is not None and self.isFile(name):
             if self.mode == "default":
@@ -126,3 +130,14 @@ class Builder(Config, Filesystem, Parser):
             return p2
 
         return os.path.join(p1, p2)
+
+    def _detectPreviousConfig(self, key):
+        config = self.config[key]
+        params = config['alternative']
+
+        status = self.isExistingDir(params['path'])
+
+        if status:
+            self.mode = 'alternative'
+        else:
+            self.mode = 'default'
