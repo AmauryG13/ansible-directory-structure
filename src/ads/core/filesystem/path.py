@@ -1,5 +1,6 @@
 import os
 
+
 class Path(object):
     def __init__(self, path=None):
         if path is None:

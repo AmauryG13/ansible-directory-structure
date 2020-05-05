@@ -1,8 +1,8 @@
 from ads.core.config.manager import Config
 from ads.core.filesystem.manager import Filesystem
 from ads.core.parser.manager import Parser
-
 import os
+
 
 class Structurer(Config, Filesystem, Parser):
     def __init__(self, mode, path, config):
@@ -15,7 +15,7 @@ class Structurer(Config, Filesystem, Parser):
         content = self._getConfigContent(None)
 
         self._addNewAction('directory', 'roles')
-        
+
         for key in content[:-1]:
             getattr(self, 'create' + key.capitalize())()
 
@@ -45,8 +45,6 @@ class Structurer(Config, Filesystem, Parser):
         self._createHook(key, name)
 
     def _createHook(self, key=None, name=None):
-        content = self._getConfigContent(key)
-
         entry = self.config[key]
         mode = ('default', self.mode)[self.mode in entry]
         entry = entry[mode]
@@ -106,17 +104,17 @@ class Structurer(Config, Filesystem, Parser):
                 if isinstance(content[key], list):
                     self._handleContent(actionPath, content[key])
 
-
     def __pathJoint(self, p1, p2):
         if self.isFile(p1):
             return p2
 
         return os.path.join(p1, p2)
 
+
 if __name__ == '__main__':
     ads = Structurer('alternative', 'tests/', None)
     ads.createRepo()
-    #ads.createConfig()
-    #ads.createInventory('cluster.ini')
-    #ads.createPlaybook('test.yaml')
-    #ads.createRole('test')
+#    ads.createConfig()
+#    ads.createInventory('cluster.ini')
+#    ads.createPlaybook('test.yaml')
+#    ads.createRole('test')

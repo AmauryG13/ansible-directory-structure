@@ -1,9 +1,10 @@
-import os
+from os import path, listdir
 from ads.core.parser.yaml import Yaml
 
+
 class Config(Yaml):
-    _defaultPath = os.path.join(os.path.dirname(__file__), '../../../../config')
-    _configKeys = ['layout', 'inventory', 'playbook', 'role', 'config'];
+    _defaultPath = path.join(path.dirname(__file__), '../../../../config')
+    _configKeys = ['layout', 'inventory', 'playbook', 'role', 'config']
 
     def __init__(self, config, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -47,7 +48,7 @@ class Config(Yaml):
         if path is None:
             path = self.defaultPath
 
-        return os.listdir(path)
+        return listdir(path)
 
     def _getConfigFile(self, filename):
         configFile = filename + '.yaml'
@@ -59,11 +60,3 @@ class Config(Yaml):
             keys.append(file[0:file.find('.')])
 
         return keys
-
-if __name__ == '__main__':
-    import pprint
-
-    config = Manager()
-    config.readConfig()
-
-    pprint.pprint(config.config)

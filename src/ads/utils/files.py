@@ -1,9 +1,10 @@
 import os
 
+
 def file2stream(func):
     def convertFilename2Stream(self, *args, **kwargs):
         largs = list(args)
-        
+
         if len(largs) >= 2:
             filename = os.path.join(largs[1], largs[0])
         else:
