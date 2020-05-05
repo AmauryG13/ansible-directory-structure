@@ -4,7 +4,7 @@ from ads.core.parser.manager import Parser
 import os
 
 
-class Structurer(Config, Filesystem, Parser):
+class Builder(Config, Filesystem, Parser):
     def __init__(self, mode, path, config):
         super().__init__(path=path, config=config)
         self.mode = mode
@@ -112,7 +112,7 @@ class Structurer(Config, Filesystem, Parser):
 
 
 if __name__ == '__main__':
-    ads = Structurer('alternative', 'tests/', None)
+    ads = Builder('alternative', 'tests/', None)
     ads.createRepo()
 #    ads.createConfig()
 #    ads.createInventory('cluster.ini')
