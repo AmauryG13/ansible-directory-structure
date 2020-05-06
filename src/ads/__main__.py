@@ -11,7 +11,7 @@ class Builder(Config, Filesystem, Parser):
         self.actions = []
         self.readConfig()
 
-    def createRepo(self, name=None):
+    def createRepo(self):
         content = self._getConfigContent(None)
 
         self._addNewAction('directory', 'roles')
@@ -22,14 +22,16 @@ class Builder(Config, Filesystem, Parser):
 
     def createConfig(self):
         key = 'config'
-        self._createHook(key, None)
+        self._createHook(key, None, None)
 
-    def createInventory(self, name=None):
+    def createInventory(self, name=None, options=None):
         key = 'inventory'
+
+        self._detectPreviousConfig(key)
 
         if name is not None and self.isFile(name):
             if self.mode == "default":
-                self.config[key][self.mode]['path'] = './' + name
+                self.config[key][self.mode]['path'] = name
                 name = None
             elif self.mode == 'alternative':
                 name = name[0:name.find('.')]
@@ -39,10 +41,12 @@ class Builder(Config, Filesystem, Parser):
                 self._executeActions()
                 return
 
-        self._createHook(key, name)
+        self._createHook(key, name, options)
 
     def createPlaybook(self, name=None):
         key = 'playbook'
+
+        self._detectPreviousConfig(key)
 
         if name is not None and self.isFile(name):
             if self.mode == "default":
@@ -54,19 +58,23 @@ class Builder(Config, Filesystem, Parser):
 
         self._createHook(key, name)
 
-    def createRole(self, name):
+    def createRole(self, name, options=None):
         key = 'role'
-        self._createHook(key, name)
+        self._createHook(key, name, options)
 
-    def _createHook(self, key=None, name=None):
-        entry = self.config[key]
-        mode = ('default', self.mode)[self.mode in entry]
-        entry = entry[mode]
+    def _createHook(self, key=None, name=None, options=None):
+        configEntry = self.config[key]
+        mode = ('default', self.mode)[self.mode in configEntry]
+        entry = configEntry[mode]
+
+        if 'options' in configEntry:
+            entry['options'] = configEntry['options']
 
         if entry is None:
             return
 
-        self._createActions(name, entry)
+        self._createActions(name, entry, options)
+
         self._executeActions()
 
     def _getConfigContent(self, key):
@@ -75,7 +83,7 @@ class Builder(Config, Filesystem, Parser):
 
         return self.config[key]
 
-    def _createActions(self, path, entry):
+    def _createActions(self, path, entry, options):
         actionDriver = entry['driver']
         actionPath = entry['path']
 
@@ -86,11 +94,11 @@ class Builder(Config, Filesystem, Parser):
         self._addNewAction(actionDriver, actionPath)
 
         if 'content' in entry:
-            content = entry['content']
-            self._handleContent(actionPath, content)
+            self._handleContent(actionPath, entry['content'])
 
-    def _executeActions(self,):
-        print(self.actions)
+        self._handleOptions(actionPath, entry, options)
+
+    def _executeActions(self):
         for action in self.actions:
             func = 'create' + action['driver'].capitalize()
             getattr(self, func)(action['path'])
@@ -121,8 +129,28 @@ class Builder(Config, Filesystem, Parser):
                 if isinstance(content[key], list):
                     self._handleContent(actionPath, content[key])
 
+    def _handleOptions(self, path, entry, options):
+        if options is not None:
+            for option in options:
+                entryOption = entry['options']
+                if option in entryOption:
+                    if 'content' in entryOption[option]:
+                        content = entryOption[option]['content']
+                        self._handleContent(path, content)
+
     def __pathJoint(self, p1, p2):
         if self.isFile(p1):
             return p2
 
         return os.path.join(p1, p2)
+
+    def _detectPreviousConfig(self, key):
+        config = self.config[key]
+        params = config['alternative']
+
+        status = self.isExistingDir(params['path'])
+
+        if status:
+            self.mode = 'alternative'
+        else:
+            self.mode = 'default'

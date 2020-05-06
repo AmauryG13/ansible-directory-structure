@@ -46,3 +46,9 @@ class File(Path):
         file = open(filepath, 'r')
 
         return file.read()
+
+    def isExistingFile(self, filename, path=None):
+        cPath = self.getEntirePath(path)
+        filepath = os.path.join(cPath, filename)
+
+        return os.path.exists(filepath)

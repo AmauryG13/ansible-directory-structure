@@ -24,7 +24,7 @@ setuptools.setup(
     version=__version__,
     author=__author__,
     author_email="amauryguillermin@gmail.com",
-    description="Package to generate convinent Ansible directory structure",
+    description="Package to generate convenient Ansible directory structure",
     long_description=long_description,
     long_description_content_type="text/markdown",
     scripts=['bin/ansible-structure'],
