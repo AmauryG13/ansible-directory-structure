@@ -28,6 +28,18 @@ class Cli(object):
             epilog=epilog
         )
 
+        self.parser.add_argument(
+            '--path', '-p',
+            dest='path',
+            help="specify the path in which create the directory (default: cwd)",
+        )
+
+        self.parser.add_argument(
+            '--config', '-c',
+            dest='config',
+            help='specify the path to your costum configuration'
+        )
+
     def init(self):
         self._createSubparsers()
 
@@ -68,7 +80,7 @@ class Cli(object):
 
         self.subparser[key].add_argument(
             '--path,-p',
-            dest='path',
+            dest='name',
             metavar='PATH',
             help='specify the relative path from where the command is launched to create the repo',
         )
@@ -192,10 +204,15 @@ class Cli(object):
         keys = ['path', 'mode', 'config', 'name', 'options']
         args = vars(self.args)
 
-        args['mode'] = args['mode'][0]
+        if isinstance(args['mode'], list):
+            args['mode'] = args['mode'][0]
 
         for key in keys:
             if key not in args:
                 args[key] = None
+
+        if args['resource'] == 'repo':
+            args['path'] = args['name']
+            args.pop('name')
 
         return args

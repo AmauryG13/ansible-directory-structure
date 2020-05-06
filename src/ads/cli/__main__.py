@@ -7,7 +7,7 @@ def getArgs(method, args):
     output = {}
     keys = {
         'init': ['path', 'mode', 'config'],
-        'hook': ['name']
+        'hook': ['name', 'options']
     }
 
     for key in keys[method]:
